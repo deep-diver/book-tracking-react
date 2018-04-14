@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Library from './Library';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div>Hello world</div>
+      <div>
+        <h1>MyReads</h1>
+        <Library title="Currently Reading"/>
+        <Library title="Want to Read"/>
+        <Library title="Read"/>
+      </div>
     )
   }
 }
