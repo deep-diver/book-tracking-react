@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import Library from './Library';
+import Search from './Search';
 import './App.css';
 
 class App extends Component {
@@ -20,11 +21,7 @@ class App extends Component {
           </div>
         )}/>
 
-        <Route exact path="/add" render={() => (
-          <div>
-            <div>hello add</div>
-          </div>
-        )}/>
+        <Route exact path="/add" component={Search}/>
       </div>
     )
   }
