@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import Library from './Library';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <h1>MyReads</h1>
-        <Library title="Currently Reading"/>
-        <Library title="Want to Read"/>
-        <Library title="Read"/>
-        <button className="add-button">+</button>
+      <div className="app">
+        <Route exact path="/" render={() => (
+          <div>
+            <h1>MyReads</h1>
+            <Library title="Currently Reading"/>
+            <Library title="Want to Read"/>
+            <Library title="Read"/>
+            <Link
+              to="/add"
+              className="add-button">
+            +</Link>
+          </div>
+        )}/>
+
+        <Route exact path="/add" render={() => (
+          <div>
+            <div>hello add</div>
+          </div>
+        )}/>
       </div>
     )
   }
