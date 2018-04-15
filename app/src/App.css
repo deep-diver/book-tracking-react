@@ -19,7 +19,7 @@ h1 {
   background-size: 60%;
   background-color: green;
 
-  position: absolute;
+  position: fixed;
   bottom: 44px;
   right: 44px;
 
