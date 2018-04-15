@@ -10,6 +10,7 @@ class App extends Component {
         <Library title="Currently Reading"/>
         <Library title="Want to Read"/>
         <Library title="Read"/>
+        <button className="add-button">+</button>
       </div>
     )
   }

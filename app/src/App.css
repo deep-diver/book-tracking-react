@@ -6,3 +6,24 @@ h1 {
   padding-top: 15px;
   padding-bottom: 15px;
 }
+
+.add-button {
+  font-size: 0;
+  background-image: url('icons/add.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  background-color: green;
+
+  position: absolute;
+  bottom: 44px;
+  right: 44px;
+
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  cursor: pointer;
+}
