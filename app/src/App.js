@@ -23,7 +23,6 @@ class App extends Component {
   }
 
   // refresh all lists of books by fetching from the server
-  // - this 
   refresh() {
     BooksAPI.getAll().then((books) => {
       let tmp_currReadingBooks = []
@@ -50,6 +49,7 @@ class App extends Component {
     })
   }
 
+  // update the shelf with the given book 
   updateBookShelfHandler(newShelf, book) {
     if (book.shelf !== newShelf) {
       BooksAPI.update(book, newShelf).then(() => {
