@@ -36,6 +36,8 @@ class Search extends Component {
   }
 
   render() {
+    const {query, books} = this.state
+
     return (
       <div>
         <div className="search-area">
@@ -44,14 +46,14 @@ class Search extends Component {
             className="search-text"
             type="text"
             ref={(input) => { this.titleInput = input; }}
-            value={this.state.query}
+            value={query}
             onChange={(event) => this.updateQuery(event.target.value)}/>
         </div>
 
         <div className="bookshelf">
-          {this.state.books.length > 0 ? (
+          {books.length > 0 ? (
             <ol className="books-grid">
-              {this.state.books.map((book) =>
+              {books.map((book) =>
                 <li key={book.id}>
                   <div className="book">
                     <div className="book-top">
