@@ -1,15 +1,38 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import TimerMixin from 'react-timer-mixin';
 import './Search.css';
+import * as BooksAPI from './BooksAPI'
 
 class Search extends Component {
 
+  timeout = null
+
   state = {
-    focus: false
+    query: '',
+    books: []
   }
 
   componentDidMount(){
     this.titleInput.focus();
+  }
+
+  updateQuery(query) {
+    this.setState({query: query})
+    // TimerMixin.clearTimeouts()
+
+    TimerMixin.clearTimeout(this.timeout)
+    this.timeout = TimerMixin.setTimeout(() => {
+      if (query === '') {
+        this.setState({books: []})
+      }
+      else {
+        BooksAPI.search(query).then((books) => {
+          this.setState({books: books})
+          console.log(books)
+        })
+      }
+    }, 300);
   }
 
   render() {
@@ -20,138 +43,36 @@ class Search extends Component {
           <input
             className="search-text"
             type="text"
-            ref={(input) => { this.titleInput = input; }} />
+            ref={(input) => { this.titleInput = input; }}
+            value={this.state.query}
+            onChange={(event) => this.updateQuery(event.target.value)}/>
         </div>
 
         <div className="bookshelf">
-          <ol className="books-grid">
-            <li>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
+          {this.state.books.length > 0 ? (
+            <ol className="books-grid">
+              {this.state.books.map((book) =>
+                <li key={book.id}>
+                  <div className="book">
+                    <div className="book-top">
+                      <div className="book-cover" style={{backgroundImage: `url(${book.imageLinks.thumbnail ? book.imageLinks.thumbnail : ''})`}}></div>
+                      <div className="book-shelf-changer">
+                        <select>
+                          <option value="none" disabled>Move to...</option>
+                          <option value="currentlyReading">Currently Reading</option>
+                          <option value="wantToRead">Want to Read</option>
+                          <option value="read">Read</option>
+                          <option value="none" defaultValue>None</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="book-title">{book.title}</div>
+                    <div className="book-authors">{book.authors ? (book.authors[0]) : ''}</div>
                   </div>
-                </div>
-                <div className="book-title">Oh, the Places You will Go!</div>
-                <div className="book-authors">Seuss</div>
-              </div>
-            </li>
-            <li>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="book-title">Oh, the Places You will Go!</div>
-                <div className="book-authors">Seuss</div>
-              </div>
-            </li>
-            <li>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="book-title">Oh, the Places You will Go!</div>
-                <div className="book-authors">Seuss</div>
-              </div>
-            </li>
-            <li>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="book-title">Oh, the Places You will Go!</div>
-                <div className="book-authors">Seuss</div>
-              </div>
-            </li>
-            <li>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="book-title">Oh, the Places You will Go!</div>
-                <div className="book-authors">Seuss</div>
-              </div>
-            </li>
-            <li>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="book-title">Oh, the Places You will Go!</div>
-                <div className="book-authors">Seuss</div>
-              </div>
-            </li>
-            <li>
-              <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                  <div className="book-shelf-changer">
-                    <select>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="book-title">Oh, the Places You will Go!</div>
-                <div className="book-authors">Seuss</div>
-              </div>
-            </li>
-          </ol>
+                </li>
+              )}
+            </ol>
+          ) : ''}
         </div>
       </div>
     )
