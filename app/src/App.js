@@ -7,12 +7,16 @@ import * as BooksAPI from './BooksAPI'
 
 class App extends Component {
   state = {
-    currReadingBooks: [],
+    currentlyReadingBooks: [],
     wantToReadBooks: [],
     readBooks: []
   }
 
   componentDidMount(){
+    this.refresh()
+  }
+
+  refresh() {
     BooksAPI.getAll().then((books) => {
       let tmp_currReadingBooks = []
       let tmp_wantToReadBooks = []
@@ -31,7 +35,7 @@ class App extends Component {
       })
 
       this.setState({
-        currReadingBooks: tmp_currReadingBooks,
+        currentlyReadingBooks: tmp_currReadingBooks,
         wantToReadBooks: tmp_wantToReadBooks,
         readBooks: tmp_readBooks
       })
@@ -40,17 +44,23 @@ class App extends Component {
     })
   }
 
+  updateBookShelfHandler(newShelf, book) {
+    BooksAPI.update(book, newShelf).then(() => {
+      this.refresh()
+    })
+  }
+
   render() {
-    let {currReadingBooks, wantToReadBooks, readBooks} = this.state
+    let {currentlyReadingBooks, wantToReadBooks, readBooks} = this.state
 
     return (
       <div className="app">
         <Route exact path="/" render={() => (
           <div>
             <h1>MyReads</h1>
-            <Library title="Currently Reading"  books={currReadingBooks}/>
-            <Library title="Want to Read" books={wantToReadBooks}/>
-            <Library title="Read" books={readBooks}/>
+            <Library title="Currently Reading" books={currentlyReadingBooks} updateBookShelfHandler={this.updateBookShelfHandler.bind(this)}/>
+            <Library title="Want to Read" books={wantToReadBooks} updateBookShelfHandler={this.updateBookShelfHandler.bind(this)}/>
+            <Library title="Read" books={readBooks} updateBookShelfHandler={this.updateBookShelfHandler.bind(this)}/>
             <Link
               to="/add"
               className="add-button">
