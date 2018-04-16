@@ -39,8 +39,6 @@ class App extends Component {
         wantToReadBooks: tmp_wantToReadBooks,
         readBooks: tmp_readBooks
       })
-
-      console.log(this.state)
     })
   }
 
@@ -70,7 +68,11 @@ class App extends Component {
           </div>
         )}/>
 
-        <Route exact path="/add" component={Search}/>
+        <Route exact path="/add" render={() => (
+          <Search
+            booksInShelf={currentlyReadingBooks.concat(wantToReadBooks).concat(readBooks)}
+            updateBookShelfHandler={this.updateBookShelfHandler.bind(this)}/>
+        )}/>
       </div>
     )
   }

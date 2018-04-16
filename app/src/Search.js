@@ -36,7 +36,8 @@ class Search extends Component {
   }
 
   render() {
-    const {query, books} = this.state
+    let {query, books} = this.state
+    let {booksInShelf, updateBookShelfHandler} = this.props
 
     return (
       <div>
@@ -53,9 +54,15 @@ class Search extends Component {
         <div className="bookshelf">
           {books.length > 0 ? (
             <ol className="books-grid">
-              {books.map((book) =>
-                <Book key={book.id} book={book}/>
-              )}
+              {books.map((book) => {
+                booksInShelf.forEach((bookInShelf) => {
+                  if (bookInShelf.id === book.id) {
+                    book.shelf = bookInShelf.shelf
+                  }
+                })
+
+                return <Book key={book.id} book={book} updateBookShelfHandler={updateBookShelfHandler}/>
+              })}
             </ol>
           ) : ''}
         </div>
