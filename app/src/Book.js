@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 class Book extends Component {
   render() {
     let {book, updateBookShelfHandler} = this.props;
-    console.log(book)
 
     return (
       <li>

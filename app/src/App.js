@@ -7,15 +7,23 @@ import * as BooksAPI from './BooksAPI'
 
 class App extends Component {
   state = {
+    // list of books under currently reading shelf
     currentlyReadingBooks: [],
+
+    // list of books under want to read shelf
     wantToReadBooks: [],
+
+    // list of books under read shelf
     readBooks: []
   }
 
+  // fetch a list of books under each shelves
   componentDidMount(){
     this.refresh()
   }
 
+  // refresh all lists of books by fetching from the server
+  // - this 
   refresh() {
     BooksAPI.getAll().then((books) => {
       let tmp_currReadingBooks = []
@@ -43,7 +51,7 @@ class App extends Component {
   }
 
   updateBookShelfHandler(newShelf, book) {
-    if (book.shelf != newShelf) {
+    if (book.shelf !== newShelf) {
       BooksAPI.update(book, newShelf).then(() => {
         this.refresh()
       })

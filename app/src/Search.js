@@ -9,7 +9,13 @@ class Search extends Component {
   timeout = null
 
   state = {
+    // book searching query text (book name)
+    // - changes when updateQuery() function is called.
+    //  - updateQuery() function is called when onChange event is fired on the text field on the top screen
     query: '',
+
+    // list of books searched by query
+    // - updated when 300ms timeout is reached in updateQuery() function
     books: []
   }
 
@@ -19,8 +25,9 @@ class Search extends Component {
 
   updateQuery(query) {
     this.setState({query: query})
-    // TimerMixin.clearTimeouts()
 
+    // 300ms waiting until user ends inputing
+    // < 300ms makes clearing the current timeout and launch another 300ms timeout
     TimerMixin.clearTimeout(this.timeout)
     this.timeout = TimerMixin.setTimeout(() => {
       if (query === '') {
@@ -29,7 +36,6 @@ class Search extends Component {
       else {
         BooksAPI.search(query).then((books) => {
           this.setState({books: books})
-          console.log(books)
         })
       }
     }, 300);

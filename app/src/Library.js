@@ -12,11 +12,13 @@ class Library extends Component {
         <hr/>
 
         <div className="bookshelf">
-          <ol className="books-grid">
-            {books.map((book) =>
-              <Book key={book.id} book={book} updateBookShelfHandler={updateBookShelfHandler}/>
-            )}
-          </ol>
+          {books.length > 0 ? (
+            <ol className="books-grid">
+              {books.map((book) =>
+                <Book key={book.id} book={book} updateBookShelfHandler={updateBookShelfHandler}/>
+              )}
+            </ol>
+          ) : ''}
         </div>
       </div>
     )
