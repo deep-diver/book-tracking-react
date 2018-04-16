@@ -45,9 +45,11 @@ class App extends Component {
   }
 
   updateBookShelfHandler(newShelf, book) {
-    BooksAPI.update(book, newShelf).then(() => {
-      this.refresh()
-    })
+    if (book.shelf != newShelf) {
+      BooksAPI.update(book, newShelf).then(() => {
+        this.refresh()
+      })
+    }
   }
 
   render() {
