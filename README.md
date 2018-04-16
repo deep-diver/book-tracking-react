@@ -1,7 +1,7 @@
 # Book Tracking web-app in React
 
 ## Overview
-<img alt='drawing' src='./overview.gif'/>
+![Alt Text](https://github.com/deep-diver/book-tracking-react/blob/master/%20overview.gif)
 
 The purpose of this project is playing with React framework. Specifically, 'react', 'react-router-dom', and 'react-timer-mixin' packages are used. This project reflects my understanding over some questions below
 - how React component is rendered?
