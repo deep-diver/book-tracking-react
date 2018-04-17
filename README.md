@@ -9,6 +9,11 @@ The purpose of this project is playing with React framework. Specifically, 'reac
 - how to pass click/change event to parent or child components?
 - where to load Ajax call to fetch data?
 
+## Instructions to run
+1. cd ./app
+2. npm install
+3. {npm | yarn} start
+
 ## Features
 - initial load of books in each shelf
 - move books to different shelf
